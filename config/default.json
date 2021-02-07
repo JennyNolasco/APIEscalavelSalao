@@ -1,6 +1,6 @@
 {
     "mysql" : {
-        "database" : "salao",
+        "database" : "apiSalao",
         "user" : "root",
         "password": "Root@123",
         "host" : "127.0.0.1"

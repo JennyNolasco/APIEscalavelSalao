@@ -1,6 +1,6 @@
 const express = require('express');
-const consign = require('consign');
 const bodyParser = require('body-parser');
+const router = require('../routes/agendamentos');
 
 module.exports = () => {
     //Criando nossa aplicação
@@ -8,12 +8,8 @@ module.exports = () => {
 
     //use() é utilizado para carregar libs dentro do express, para Ler o body em json da requisição
     app.use(bodyParser.json());
-
-    //Incluir tudo o que está na pasta controllers dentro do app
-    consign()
-        .include('controllers')
-        .into(app)
-
+    app.use('/api/agendamentos', router);
+    
     return app;
 };
 
