@@ -8,7 +8,7 @@ module.exports = () => {
 
     //use() é utilizado para carregar libs dentro do express, para Ler o body em json da requisição
     app.use(bodyParser.json());
-    app.use('/api/agendamentos', router);
+    app.use('/api', router);
     
     return app;
 };
