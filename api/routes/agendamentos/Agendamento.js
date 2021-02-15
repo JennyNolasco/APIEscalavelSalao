@@ -21,6 +21,40 @@ class Agendamento {
         this.data_criacao = result.data_criacao;
         this.data_atualizacao = result.data_atualizacao;
     };
+
+    async buscar() {
+        const result = await TabelaAgendamento.buscarPorPK(this.id);
+        this.nome_cliente = result.nome_cliente;
+        this.nome_servico = result.nome_servico;
+        this.status = result.status;
+        this.data_agendamento = result.data_agendamento;
+        this.data_criacao = result.data_criacao;
+        this.data_atualizacao = result.data_atualizacao;
+    };
+
+    async atualizar() {
+        await TabelaAgendamento.buscarPorPK(this.id);
+        const camposAtualizaveis = ['nome_cliente', 'nome_servico', 'status', 'data_agendamento']
+        const dadosAtualizar = {}
+
+        camposAtualizaveis.forEach((campo) => {
+            const valor = this[campo];
+            if (typeof valor === 'string' && valor.length > 0) {
+                dadosAtualizar[campo] = valor
+            };
+        });
+
+        if(Object.keys(dadosAtualizar).length === 0) {
+            throw new Error('Não foi informado dados para alteração')
+        };
+
+        await TabelaAgendamento.atualizar(this.id, dadosAtualizar);
+    };
+
+    async remover() {
+        return await TabelaAgendamento.remover(this.id);
+    };
+    
 };
 
 module.exports = Agendamento;
