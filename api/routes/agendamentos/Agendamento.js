@@ -1,4 +1,6 @@
 const TabelaAgendamento = require('./TabelaAgendamento');
+const CampoInvalido = require('../../errors/CampoInvalido');
+
 class Agendamento {
     constructor({id, nome_cliente, nome_servico, status, data_agendamento, data_criacao, data_atualizacao}){
         this.id = id;
@@ -11,6 +13,7 @@ class Agendamento {
     };
 
     async criar() {
+        this.validar()
         const result = await TabelaAgendamento.adicionar({
             nome_cliente: this.nome_cliente,
             nome_servico: this.nome_servico,
@@ -52,9 +55,19 @@ class Agendamento {
     };
 
     async remover() {
-        return await TabelaAgendamento.remover(this.id);
+        await TabelaAgendamento.remover(this.id);
     };
-    
+
+    validar() {
+        const camposObrigatorios = ['nome_cliente', 'nome_servico', 'status', 'data_agendamento']
+
+        camposObrigatorios.forEach((campo) => {
+            const valor = this[campo];
+            if (typeof valor !== 'string' || valor.length === 0) {
+                throw new CampoInvalido(campo)
+            };
+        });
+    };
 };
 
 module.exports = Agendamento;

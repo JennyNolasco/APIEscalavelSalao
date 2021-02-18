@@ -1,4 +1,5 @@
 const modeloAgendamento = require('./modelTabelaAgendamento');
+const NaoEncontrado = require('../../errors/NaoEncontrado');
 
 module.exports = {
     async listar() {
@@ -13,7 +14,7 @@ module.exports = {
         agendamento = await modeloAgendamento.findByPk(id)
 
         if(!agendamento) {
-            throw new Error('Agendamento não encontrado');
+            throw new NaoEncontrado;
         };
 
         return agendamento
