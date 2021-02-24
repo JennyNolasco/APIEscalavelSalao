@@ -1,10 +1,14 @@
 const router = require('express').Router()
 const TabelaAgendamento = require('./TabelaAgendamento');
-const Agendamento = require('./Agendamento')
+const Agendamento = require('./Agendamento');
+const SerializarAgendamento = require('../../Serializar').SerializarAgendamento;
 
 router.get('/agendamentos', async (req, resp) => {
     const results = await TabelaAgendamento.listar();
-    resp.status(200).send(JSON.stringify(results));
+    const serializador = new SerializarAgendamento(
+        resp.getHeader('Content-Type')
+    );
+    resp.status(200).send(serializador.serializar(results));
 });
 
 router.post('/agendamentos', async (req, resp, next) => {
@@ -12,7 +16,10 @@ router.post('/agendamentos', async (req, resp, next) => {
         const reqAgendamento = req.body;
         const agendamento = new Agendamento(reqAgendamento);
         await agendamento.criar()
-        resp.status(201).send(JSON.stringify(agendamento));
+        const serializador = new SerializarAgendamento(
+            resp.getHeader('Content-Type')
+        );
+        resp.status(201).send(serializador.serializar(agendamento));
     } catch (error) {
         next(error)
     };
@@ -23,7 +30,10 @@ router.get('/agendamentos/:idAgendamento', async (req, resp, next) => {
         const id = req.params.idAgendamento;
         const agendamento = new Agendamento({id: id});
         await agendamento.buscar();
-        resp.status(200).send(JSON.stringify(agendamento));
+        const serializador = new SerializarAgendamento(
+            resp.getHeader('Content-Type')
+        );
+        resp.status(200).send(serializador.serializar(agendamento));
     } catch (error) {
         next(error)
     };

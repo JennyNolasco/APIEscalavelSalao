@@ -1,5 +1,6 @@
 const TabelaAgendamento = require('./TabelaAgendamento');
 const CampoInvalido = require('../../errors/CampoInvalido');
+const DadosNaoInformados = require('../../errors/DadosNaoInformados');
 
 class Agendamento {
     constructor({id, nome_cliente, nome_servico, status, data_agendamento, data_criacao, data_atualizacao}){
@@ -48,7 +49,7 @@ class Agendamento {
         });
 
         if(Object.keys(dadosAtualizar).length === 0) {
-            throw new Error('Não foi informado dados para alteração')
+            throw new DadosNaoInformados()
         };
 
         await TabelaAgendamento.atualizar(this.id, dadosAtualizar);

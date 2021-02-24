@@ -3,21 +3,44 @@ const bodyParser = require('body-parser');
 const router = require('../routes/agendamentos');
 const NaoEncontrado = require('../errors/NaoEncontrado');
 const CampoInvalido = require('../errors/CampoInvalido');
+const DadosNaoInformados = require('../errors/DadosNaoInformados');
+const FormatoInvalido = require('../errors/FormatoInvalido');
+const FormatosValidos = require('../Serializar').FormatosValidos;
 
 module.exports = () => {
     //Criando nossa aplicação
     const app = express()
+
+    app.use((req, resp, next) => {
+        let formatoSolicitado = req.header('Accept');
+        if(formatoSolicitado === '*/*') {
+            formatoSolicitado = 'application/json'
+        }
+
+        if(FormatosValidos.indexOf(formatoSolicitado) === -1) {
+            resp.status(406);
+            resp.end();
+            return
+        };
+
+        resp.setHeader('Content-Type', formatoSolicitado);
+        next();
+    });
 
     //use() é utilizado para carregar libs dentro do express, para Ler o body em json da requisição
     app.use(bodyParser.json());
     app.use('/api', router);
     app.use((error, req, resp, next) => {
         let status = 500;
-        if( error instanceof NaoEncontrado){
+        if( error instanceof NaoEncontrado) {
             status = 404
         };
-        if( error instanceof CampoInvalido){
+        if( error instanceof CampoInvalido || error instanceof DadosNaoInformados ) {
             status = 400
+        };
+
+        if( error instanceof FormatoInvalido) {
+            status = 406
         };
 
         resp.status(status).send(JSON.stringify({
