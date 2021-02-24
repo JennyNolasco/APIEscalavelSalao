@@ -6,9 +6,11 @@ const SerializarAgendamento = require('../../Serializar').SerializarAgendamento;
 router.get('/agendamentos', async (req, resp) => {
     const results = await TabelaAgendamento.listar();
     const serializador = new SerializarAgendamento(
-        resp.getHeader('Content-Type')
+        resp.getHeader('Content-Type'), 
+        ['nome_servico', 'status']
     );
-    resp.status(200).send(serializador.serializar(results));
+    teste = serializador.transformar(results)
+    resp.status(200).send(teste);
 });
 
 router.post('/agendamentos', async (req, resp, next) => {
@@ -19,7 +21,7 @@ router.post('/agendamentos', async (req, resp, next) => {
         const serializador = new SerializarAgendamento(
             resp.getHeader('Content-Type')
         );
-        resp.status(201).send(serializador.serializar(agendamento));
+        resp.status(201).send(serializador.transformar(agendamento));
     } catch (error) {
         next(error)
     };
@@ -31,9 +33,10 @@ router.get('/agendamentos/:idAgendamento', async (req, resp, next) => {
         const agendamento = new Agendamento({id: id});
         await agendamento.buscar();
         const serializador = new SerializarAgendamento(
-            resp.getHeader('Content-Type')
+            resp.getHeader('Content-Type', 
+                ['nome_servico', 'status'])
         );
-        resp.status(200).send(serializador.serializar(agendamento));
+        resp.status(200).send(serializador.transformar(agendamento));
     } catch (error) {
         next(error)
     };

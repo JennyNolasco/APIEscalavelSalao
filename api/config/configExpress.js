@@ -6,6 +6,7 @@ const CampoInvalido = require('../errors/CampoInvalido');
 const DadosNaoInformados = require('../errors/DadosNaoInformados');
 const FormatoInvalido = require('../errors/FormatoInvalido');
 const FormatosValidos = require('../Serializar').FormatosValidos;
+const SerializarErro = require('../Serializar').SerializarErro;
 
 module.exports = () => {
     //Criando nossa aplicação
@@ -43,9 +44,17 @@ module.exports = () => {
             status = 406
         };
 
-        resp.status(status).send(JSON.stringify({
-            mensagem: error.message
-        }));
+        serializarErro = new SerializarErro(
+            resp.getHeader('Content-Type')
+        );
+
+
+        resp.status(status).send(
+            serializarErro.transformar({
+                id: error.id,
+                mensagem: error.message
+            })
+        );
 
     });
     

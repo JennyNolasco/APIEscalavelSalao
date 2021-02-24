@@ -3,7 +3,9 @@ const NaoEncontrado = require('../../errors/NaoEncontrado');
 
 module.exports = {
     async listar() {
-        return await modeloAgendamento.findAll();
+        return await modeloAgendamento.findAll({
+            raw: true,
+        });
     },
 
     async adicionar(agendamento) {
