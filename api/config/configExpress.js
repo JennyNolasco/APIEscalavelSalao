@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const router = require('../routes/agendamentos');
+const routesAgendamento = require('../routes/agendamentos');
+const routesUsuario = require('../routes/usuarios');
 const NaoEncontrado = require('../errors/NaoEncontrado');
 const CampoInvalido = require('../errors/CampoInvalido');
 const DadosNaoInformados = require('../errors/DadosNaoInformados');
@@ -30,7 +31,8 @@ module.exports = () => {
 
     //use() é utilizado para carregar libs dentro do express, para Ler o body em json da requisição
     app.use(bodyParser.json());
-    app.use('/api', router);
+    app.use('/api', routesAgendamento);
+    app.use('/api', routesUsuario);
     app.use((error, req, resp, next) => {
         let status = 500;
         if( error instanceof NaoEncontrado) {

@@ -1,8 +1,8 @@
 class DadosNaoInformados extends Error{
     constructor(){
-        super('Dados não informados') 
+        super('Dados não informados');
         this.name = 'DadosNaoInformados';
-        this.idErro = 2 
+        this.idErro = 2; 
     };
 };
 
