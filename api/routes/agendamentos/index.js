@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const TabelaAgendamento = require('./TabelaAgendamento');
-const Agendamento = require('./Agendamento');
+const TabelaAgendamento = require('../../agendamentos/TabelaAgendamento');
+const Agendamento = require('../../agendamentos/Agendamento');
 const SerializarAgendamento = require('../../Serializar').SerializarAgendamento;
 
 router.get('/agendamentos', async (req, resp) => {

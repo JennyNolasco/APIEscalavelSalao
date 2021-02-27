@@ -1,6 +1,6 @@
 const router = require('express').Router()
-const TabelaUsuario = require('./TabelaUsuario');
-const Usuario = require('./Usuario');
+const TabelaUsuario = require('../../usuarios/TabelaUsuario');
+const Usuario = require('../../usuarios/Usuario');
 const SerializarUsuario = require('../../Serializar').SerializarUsuario;
 
 router.get('/usuarios', async (req, resp) => {

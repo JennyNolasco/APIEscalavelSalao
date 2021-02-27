@@ -1,8 +1,8 @@
 const TabelaUsuario = require('./TabelaUsuario');
-const CampoInvalido = require('../../errors/CampoInvalido');
-const DadosNaoInformados = require('../../errors/DadosNaoInformados');
-const CampoQtdMaxima = require('../../errors/CampoQtdMaxima');
-const CampoQtdMinima = require('../../errors/CampoQtdMinima');
+const CampoInvalido = require('../errors/CampoInvalido');
+const DadosNaoInformados = require('../errors/DadosNaoInformados');
+const CampoQtdMaxima = require('../errors/CampoQtdMaxima');
+const CampoQtdMinima = require('../errors/CampoQtdMinima');
 
 const bcrypt = require('bcrypt');
 
@@ -14,14 +14,16 @@ class Usuario {
         this.senha = senha;
         this.data_criacao = data_criacao;
         this.data_atualizacao = data_atualizacao;
+        this.senhaHash = '';
     };
 
     async criar() {
         this.validar()
+        await this.adicionaSenha()
         const result = await TabelaUsuario.adicionar({
             nome: this.nome,
             email: this.email,
-            senha: this.senha
+            senha: this.senhaHash
         });
         this.id = result.id;
         this.data_criacao = result.data_criacao;
@@ -79,8 +81,12 @@ class Usuario {
             };
 
             
-            if(valor.length < 8 && valor === 'senha') {
-                throw new CampoQtdMinima()
+            if(valor.length < 8 && campo === 'senha') {
+                throw new CampoQtdMinima(campo)
+            }
+
+            if(valor.length > 64 && campo === 'senha') {
+                throw new CampoQtdMaxima(campo)
             }
         });
     };
@@ -90,8 +96,8 @@ class Usuario {
         return await bcrypt.hash(campo, saltRounds)
     };
 
-    async adicionaSenha(senha) {
-        this.senhaHash = await this.gerarHash(senha);
+    async adicionaSenha() {
+        this.senhaHash = await this.gerarHash(this.senha);
     };
 };
 

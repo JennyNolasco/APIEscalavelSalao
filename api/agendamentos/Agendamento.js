@@ -1,6 +1,6 @@
 const TabelaAgendamento = require('./TabelaAgendamento');
-const CampoInvalido = require('../../errors/CampoInvalido');
-const DadosNaoInformados = require('../../errors/DadosNaoInformados');
+const CampoInvalido = require('../errors/CampoInvalido');
+const DadosNaoInformados = require('../errors/DadosNaoInformados');
 
 class Agendamento {
     constructor({id, nome_cliente, nome_servico, status, data_agendamento, data_criacao, data_atualizacao}){

@@ -17,6 +17,8 @@
     "express": "^4.17.1",
     "jsontoxml": "^1.0.1",
     "mysql2": "^2.2.5",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.5.0"
   },
   "devDependencies": {

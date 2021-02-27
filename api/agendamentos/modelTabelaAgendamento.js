@@ -1,27 +1,31 @@
 const Sequelize = require('sequelize');
-const instanciadb = require('../../db')
+const instanciadb = require('../db')
 
 const columns = {
-    nome: {
+    nome_cliente: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    email: {
+    nome_servico: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    senha: {
-        type: Sequelize.STRING,
+    status: {
+        type: Sequelize.ENUM('agendado','cancelado'),
+        allowNull: false
+    },
+    data_agendamento: {
+        type: Sequelize.DATE,
         allowNull: false
     },
 };
 
 const sequelizeOptions = {
     freezeTableName: true,
-    tableName: "usuario",
+    tableName: "agendamento",
     timestamps: true,
     createdAt: 'data_criacao',
     updatedAt: 'data_atualizacao'
 };
 
-module.exports = instanciadb.define('usuario', columns, sequelizeOptions);
+module.exports = instanciadb.define('agendamento', columns, sequelizeOptions);
