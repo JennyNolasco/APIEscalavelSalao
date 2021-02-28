@@ -9,7 +9,7 @@ const FormatoInvalido = require('../errors/FormatoInvalido');
 const FormatosValidos = require('../Serializar').FormatosValidos;
 const SerializarErro = require('../Serializar').SerializarErro;
 
-const { autenticacao } = require('../usuarios');
+const passport = require('../usuarios/autenticacao');
 
 module.exports = () => {
     //Criando nossa aplicação
