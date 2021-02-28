@@ -2,6 +2,7 @@ const router = require('express').Router()
 const TabelaUsuario = require('../../usuarios/TabelaUsuario');
 const Usuario = require('../../usuarios/Usuario');
 const SerializarUsuario = require('../../Serializar').SerializarUsuario;
+const passport = require('passport');
 
 router.get('/usuarios', async (req, resp) => {
     const results = await TabelaUsuario.listar();
@@ -23,9 +24,14 @@ router.post('/usuarios', async (req, resp, next) => {
         );
         resp.status(201).send(serializador.transformar(usuario));
     } catch (error) {
-        next(error)
+        next(error);
     };
 });
+
+router.post('/login/',
+      passport.authenticate('local', { session: false }),
+      TabelaUsuario.login
+    );
 
 router.get('/usuarios/:idUsuario', async (req, resp, next) => {
     try {
