@@ -1,6 +1,11 @@
+const router = require('express').Router()
+const TabelaUsuario = require('../../usuarios/TabelaUsuario');
+const passport = require('passport');
 
-module.exports = {
-    login: (req, resp) => {
-        resp.status(204).send()
-    }
-}
+router.post('/login/',
+      passport.authenticate('local', { session: false }),
+      TabelaUsuario.login
+);
+
+
+module.exports = router

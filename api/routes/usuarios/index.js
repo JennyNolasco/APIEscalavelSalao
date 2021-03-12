@@ -28,11 +28,6 @@ router.post('/usuarios', async (req, resp, next) => {
     };
 });
 
-router.post('/login/',
-      passport.authenticate('local', { session: false }),
-      TabelaUsuario.login
-);
-
 router.get('/usuarios/:idUsuario', async (req, resp, next) => {
     try {
         const id = req.params.idUsuario;

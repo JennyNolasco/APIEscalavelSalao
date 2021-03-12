@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const routesAgendamento = require('../routes/agendamentos');
 const routesUsuario = require('../routes/usuarios');
+const routesLogin = require('../routes/login');
 const NaoEncontrado = require('../errors/NaoEncontrado');
 const CampoInvalido = require('../errors/CampoInvalido');
 const DadosNaoInformados = require('../errors/DadosNaoInformados');
@@ -35,6 +36,7 @@ module.exports = () => {
     app.use(bodyParser.json());
     app.use('/api', routesAgendamento);
     app.use('/api', routesUsuario);
+    app.use('/api', routesLogin);
     app.use((error, req, resp, next) => {
         let status = 500;
         if( error instanceof NaoEncontrado) {
