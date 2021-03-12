@@ -20,8 +20,6 @@ async function conferirSenha(senha, senhaHash) {
 module.exports = {
     passport:
 
-
-
     passport.use(
         new LocalStrategy ({
             usernameField: 'email',

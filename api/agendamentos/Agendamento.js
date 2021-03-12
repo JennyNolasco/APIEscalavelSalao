@@ -3,7 +3,8 @@ const CampoInvalido = require('../errors/CampoInvalido');
 const DadosNaoInformados = require('../errors/DadosNaoInformados');
 
 class Agendamento {
-    constructor({id, nome_cliente, nome_servico, status, data_agendamento, data_criacao, data_atualizacao}){
+    constructor({id, nome_cliente, nome_servico, status, data_agendamento, 
+        data_criacao, data_atualizacao}){
         this.id = id;
         this.nome_cliente = nome_cliente;
         this.nome_servico = nome_servico;
