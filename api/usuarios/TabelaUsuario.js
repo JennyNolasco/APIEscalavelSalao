@@ -1,14 +1,5 @@
 const modeloUsuario = require('./modelTabelaUsuario');
-const NaoEncontrado = require('../errors/NaoEncontrado');
-const jwt= require('jsonwebtoken');
-
-function criarToken(usuario) {
-    const payload = {
-        id: usuario.id
-    };
-
-    return jwt.sign(payload, 'segredo');
-}
+const NaoEncontrado = require('../errors/UsuarioNaoEncontrado');
 
 module.exports = {
     async listar() {
@@ -65,13 +56,6 @@ module.exports = {
             }
         );
     },
-    login: (req, resp) => {
-        const token = criarToken(req.user);
-        resp.set('Autorization', token);
-        resp.status(204).send();
-    },
+
 };
 
-
-
-String

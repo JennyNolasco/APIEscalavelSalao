@@ -1,10 +1,10 @@
 const router = require('express').Router()
-const TabelaUsuario = require('../../usuarios/TabelaUsuario');
+const controllerUsuario = require('../../usuarios/controllerUsuario');
 const passport = require('passport');
 
 router.post('/login/',
       passport.authenticate('local', { session: false }),
-      TabelaUsuario.login
+      controllerUsuario.login
 );
 
 

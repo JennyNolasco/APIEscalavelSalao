@@ -2,6 +2,7 @@ const router = require('express').Router()
 const TabelaUsuario = require('../../usuarios/TabelaUsuario');
 const Usuario = require('../../usuarios/Usuario');
 const SerializarUsuario = require('../../Serializar').SerializarUsuario;
+const controllerUsuario = require('../../usuarios/controllerUsuario');
 const passport = require('passport');
 
 router.get('/usuarios', async (req, resp) => {
@@ -43,16 +44,10 @@ router.get('/usuarios/:idUsuario', async (req, resp, next) => {
     };
 });
 
-router.delete('/usuarios/:idUsuario', async (req, resp, next) => {
-    try {
-        const id = req.params.idUsuario;
-        const usuario = new Usuario({id: id});
-        await usuario.remover();
-        resp.status(204).send();
-    } catch (error) {
-        next(error)
-    };
-});
+router.delete('/usuarios/:idUsuario', 
+    passport.authenticate('bearer', { session: false }),
+    controllerUsuario.delete
+);
 
 router.put('/usuarios/:idUsuario', async (req, resp, next) => {
     try {

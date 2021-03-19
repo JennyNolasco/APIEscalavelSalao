@@ -41,6 +41,7 @@ class Usuario {
 
     async buscarPorEmail() {
         const result = await TabelaUsuario.buscarPorEmail(this.email);
+        this.id = result.id;
         this.nome = result.nome;
         this.email = result.email;
         this.senha = result.senha;
